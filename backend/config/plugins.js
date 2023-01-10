@@ -3,7 +3,7 @@ module.exports = ({ env }) => ({
     config: {
       provider: "nodemailer",
       providerOptions: {
-        host: env("SMTP_HOST", "smtp.mountainbackpackers-club.co.za"),
+        host: env("SMTP_HOST", "bl7n8.zadns.co.za"),
         port: env("SMTP_PORT", 465),
         secure: true,
         auth: {
