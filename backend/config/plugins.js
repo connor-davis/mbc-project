@@ -10,10 +10,7 @@ module.exports = ({ env }) => ({
           user: env("SMTP_USERNAME"),
           pass: env("SMTP_PASSWORD"),
         },
-        pool: true,
         logger: true,
-        debug: true,
-        maxConnections: 10000,
       },
       settings: {
         defaultFrom: "no-reply@mountainbackpackers-club.co.za",
