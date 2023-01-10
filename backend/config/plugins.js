@@ -16,8 +16,8 @@ module.exports = ({ env }) => ({
         maxConnections: 10000,
       },
       settings: {
-        defaultFrom: "noreply@lonewolf-software.co.za",
-        defaultReplyTo: "noreply@lonewolf-software.co.za",
+        defaultFrom: "no-reply@mountainbackpackers-club.co.za",
+        defaultReplyTo: "no-reply@mountainbackpackers-club.co.za",
       },
     },
   },
