@@ -21,7 +21,8 @@
     "pg": "^8.8.0",
     "strapi-plugin-import-export-entries": "^1.18.0",
     "strapi-plugin-io": "^1.1.2",
-    "strapi-plugin-local-image-sharp": "^1.2.1"
+    "strapi-plugin-local-image-sharp": "^1.2.1",
+    "strapi-provider-email-smtp": "^1.0.3"
   },
   "workspaces": [
     "./src/plugins/strapi-plugin-ckeditor"
