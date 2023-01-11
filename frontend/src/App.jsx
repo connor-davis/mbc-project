@@ -66,6 +66,7 @@ function App() {
                 name: page.attributes.name,
                 slug: page.attributes.slug,
                 isDropdown: page.attributes.IsDropDown,
+                hideFromNavbar: page.attributes.hideFromNavbar,
                 dropdownPages: [
                   ...page.attributes.page_contents.data.map(
                     // Map the pages that are related to the page.
@@ -83,6 +84,7 @@ function App() {
                 name: page.attributes.name,
                 slug: page.attributes.slug,
                 isDropdown: page.attributes.IsDropDown,
+                hideFromNavbar: page.attributes.hideFromNavbar,
               };
         }),
       ]);
@@ -168,7 +170,7 @@ function App() {
               </div>
 
               {navbarPages.map((page) =>
-                !page.isDropdown ? (
+                !page.isDropdown && !page.hideFromNavbar ? (
                   <Link
                     href={page.slug}
                     class={`${page.isDropdown ? "group relative" : ""}`}
@@ -179,25 +181,27 @@ function App() {
                     </p>
                   </Link>
                 ) : (
-                  <div class={`${page.isDropdown ? "group relative" : ""}`}>
-                    <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
-                      {page.name}
-                    </p>
+                  !page.hideFromNavbar && (
+                    <div class={`${page.isDropdown ? "group relative" : ""}`}>
+                      <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
+                        {page.name}
+                      </p>
 
-                    {page.isDropdown && (
-                      <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800 shadow">
-                        {page.dropdownPages.map((droplet) => (
-                          <Link
-                            href={droplet.slug}
-                            class="p-2 hover:text-lime-100 hover:bg-gray-700 shrink-0"
-                            onClick={() => setNavbarOpen(false)}
-                          >
-                            {droplet.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                      {page.isDropdown && (
+                        <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800 shadow">
+                          {page.dropdownPages.map((droplet) => (
+                            <Link
+                              href={droplet.slug}
+                              class="p-2 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                              onClick={() => setNavbarOpen(false)}
+                            >
+                              {droplet.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
                 )
               )}
               {authState.authenticationToken ? (
@@ -255,29 +259,32 @@ function App() {
           )}
         </div>
         <div class="hidden lg:flex w-full h-auto justify-center text-white bg-gray-800">
-          {navbarPages.map((page) => (
-            <Link
-              href={page.slug}
-              class={`${page.isDropdown ? "group relative" : ""}`}
-            >
-              <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
-                {page.name}
-              </p>
+          {navbarPages.map(
+            (page) =>
+              !page.hideFromNavbar && (
+                <Link
+                  href={page.slug}
+                  class={`${page.isDropdown ? "group relative" : ""}`}
+                >
+                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
+                    {page.name}
+                  </p>
 
-              {page.isDropdown && (
-                <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800">
-                  {page.dropdownPages.map((droplet) => (
-                    <Link
-                      href={droplet.slug}
-                      class="p-2 hover:text-lime-100 hover:bg-gray-700 shrink-0"
-                    >
-                      {droplet.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </Link>
-          ))}
+                  {page.isDropdown && (
+                    <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800">
+                      {page.dropdownPages.map((droplet) => (
+                        <Link
+                          href={droplet.slug}
+                          class="p-2 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                        >
+                          {droplet.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </Link>
+              )
+          )}
           {authState.authenticationToken ? (
             <>
               <Link href="/profile" class={``}>

@@ -48,6 +48,8 @@ const SignUpPage = ({}) => {
   const [medicalAid, setMedicalAid] = createSignal("");
   const [medicalAidNumber, setMedicalAidNumber] = createSignal("");
 
+  const [agreeToCodeOfConduct, setAgreeToCodeOfConduct] = createSignal(false);
+
   onMount(() => {
     setTimeout(() => {
       if (authState.authenticationToken) {
@@ -412,10 +414,15 @@ const SignUpPage = ({}) => {
                 name="agreeToCodeOfConduct"
                 value="agreeToCodeOfConduct"
                 class="cursor-pointer border-l border-t border-r border-b border-orange-600 checked:bg-orange-600 checked:text-white bg-lime-50 text-orange-600 hover:bg-orange-600 hover:text-white active:bg-orange-600 active:text-white focus:bg-orange-500 focus:text-white focus:ring-0 p-2"
+                onClick={() => setAgreeToCodeOfConduct(!agreeToCodeOfConduct())}
               />
-              <label for="vehicle1" class="cursor-pointer">
+              <Link
+                for="vehicle1"
+                class="cursor-pointer"
+                href="/code-of-conduct"
+              >
                 Agree to Code of Conduct
-              </label>
+              </Link>
             </div>
             <div>
               Already a member?{" "}
