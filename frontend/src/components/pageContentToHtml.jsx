@@ -28,6 +28,7 @@ const PageTextToHtml = ({ content }) => {
         const imageUrl = imageSrcArray.join("/");
 
         imageElement.src = apiUrl + "/" + imageUrl;
+        imageElement.parentElement.target = "_blank";
       }
     });
 
