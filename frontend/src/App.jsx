@@ -329,7 +329,7 @@ function App() {
             <Route
               path={page.slug}
               element={
-                <div class="w-full prose max-w-none m-0 prose-p:m-0 prose-h1:m-0 p-5 prose-a:text-orange-600 marker:text-orange-600 prose-headings:text-orange-600 rounded-md animate-fade-in duration-50 ease-in-out px-5 md:px-32 bg-lime-100">
+                <div class="w-full prose max-w-none m-0 prose-p:m-0 prose-h1:m-0 p-5 prose-a:text-orange-600 marker:text-orange-600 prose-headings:p-0 prose-headings:m-0 prose-headings:text-orange-600 rounded-md animate-fade-in duration-50 ease-in-out px-5 md:px-32 bg-lime-100">
                   <PageTextToHtml content={page.content} />
                 </div>
               }
