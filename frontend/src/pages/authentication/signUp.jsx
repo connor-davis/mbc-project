@@ -5,7 +5,7 @@ import { apiUrl } from "../../apiUrl";
 import axios from "axios";
 import useState from "../../hooks/state";
 
-const SignUpPage = ({}) => {
+const SignUpPage = ({ }) => {
   const navigate = useNavigate();
 
   const [authState, updateAuthState] = useState("authState");
@@ -29,9 +29,7 @@ const SignUpPage = ({}) => {
   const [addressLineThree, setAddressLineThree] = createSignal("");
   const [postalCode, setPostalCode] = createSignal("");
   const [residentialArea, setResidentialArea] = createSignal("");
-  const [homePhone, setHomePhone] = createSignal("");
-  const [cellPhone, setCellPhone] = createSignal("");
-  const [workPhone, setWorkPhone] = createSignal("");
+  const [preferredContactNumber, setPreferredContactNumber] = createSignal("");
 
   // Membership Info
   const [interestedInDayHikes, setInterestedInDayHikes] = createSignal(false);
@@ -62,54 +60,57 @@ const SignUpPage = ({}) => {
     if (password() !== confirmPassword())
       setMessage({ content: "Passwords do not match.", type: "error" });
     else
-      axios
-        .post(apiUrl + "/api/auth/local/register", {
-          memberTitle: memberTitle(),
-          username: username(),
-          firstName: firstName(),
-          lastName: lastName(),
-          email: email(),
-          password: password(),
-          addressLineOne: addressLineOne(),
-          addressLineTwo: addressLineTwo(),
-          addressLineThree: addressLineThree(),
-          postalCode: postalCode(),
-          residentialArea: residentialArea(),
-          homePhone: homePhone(),
-          cellPhone: cellPhone(),
-          workPhone: workPhone(),
-          interestedInDayHikes: interestedInDayHikes(),
-          interestedInBackpacking: interestedInBackpacking(),
-          membershipType: membershipTypes[membershipType()],
-          idPassportNumber: idPassportNumber(),
-          nextOfKin: nextOfKin(),
-          nextOfKinContact: nextOfKinContact(),
-          nextOfKinAddress: nextOfKinAddress(),
-          medicalIssues: medicalIssues(),
-          medicalAid: medicalAid(),
-          medicalAidNumber: medicalAidNumber(),
-        })
-        .then((response) => {
-          setMessage({
-            content: "You have been registered.",
-            type: "success",
-          });
+      if (agreeToCodeOfConduct()) {
+        axios
+          .post(apiUrl + "/api/auth/local/register", {
+            memberTitle: memberTitle(),
+            username: username(),
+            firstName: firstName(),
+            lastName: lastName(),
+            email: email(),
+            password: password(),
+            addressLineOne: addressLineOne() || "None",
+            addressLineTwo: addressLineTwo() || "None",
+            addressLineThree: addressLineThree() || "None",
+            postalCode: postalCode() || "None",
+            residentialArea: residentialArea() || "None",
+            preferredContactNumber: preferredContactNumber() || "None",
+            membershipType: membershipTypes[membershipType()] || "None",
+            idPassportNumber: idPassportNumber() || "None",
+            nextOfKin: nextOfKin() || "None",
+            nextOfKinContact: nextOfKinContact() || "None",
+            nextOfKinAddress: nextOfKinAddress() || "None",
+            medicalIssues: medicalIssues() || "None",
+            medicalAid: medicalAid() || "None",
+            medicalAidNumber: medicalAidNumber() || 0,
+          })
+          .then((response) => {
+            setMessage({
+              content: "You have been registered.",
+              type: "success",
+            });
 
-          updateUserState({ ...response.data.user });
+            updateUserState({ ...response.data.user });
 
-          setTimeout(() => {
-            navigate("/signIn", { replace: true });
-          }, 1500);
-        })
-        .catch((error) => {
-          setMessage({
-            content: error.response.data.error.message.replace(
-              "identifier",
-              "username"
-            ),
-            type: "error",
+            setTimeout(() => {
+              navigate("/signIn", { replace: true });
+            }, 1500);
+          })
+          .catch((error) => {
+            setMessage({
+              content: error.response.data.error.message.replace(
+                "identifier",
+                "username"
+              ),
+              type: "error",
+            });
           });
+      } else {
+        setMessage({
+          content: "You need to agree to the Code of Conduct before you can create an account.",
+          type: "error"
         });
+      }
   };
 
   return (
@@ -121,8 +122,9 @@ const SignUpPage = ({}) => {
         class="flex flex-col w-full sm:w-96 h-full p-5 space-y-5"
       >
         <div class="text-lime-700 font-bold uppercase text-lg">
-          Member Sign Up
+          Join The Club
         </div>
+        <div>Fields with a * are required fields.</div>
         <div class="flex flex-col space-y-3">
           <div class="font-bold">Member Info</div>
           <input
@@ -236,66 +238,14 @@ const SignUpPage = ({}) => {
           />
           <input
             type="tel"
-            value={homePhone()}
-            onChange={(event) => setHomePhone(event.target.value)}
+            value={preferredContactNumber()}
+            onChange={(event) => setPreferredContactNumber(event.target.value)}
             class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Home phone"
-          />
-          <input
-            type="tel"
-            value={cellPhone()}
-            onChange={(event) => setCellPhone(event.target.value)}
-            class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Cell phone"
-          />
-          <input
-            type="tel"
-            value={workPhone()}
-            onChange={(event) => setWorkPhone(event.target.value)}
-            class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Work phone"
+            placeholder="Preferred Contact Number *"
           />
         </div>
         <div class="flex flex-col space-y-3">
           <div class="font-bold">Membership Info</div>
-          <div class="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="interestedInDayHikes"
-              name="interestedInDayHikes"
-              checked={interestedInDayHikes()}
-              onClick={() => setInterestedInDayHikes(!interestedInDayHikes())}
-              class="cursor-pointer border-l border-t border-r border-b border-orange-600 checked:bg-orange-600 checked:text-white bg-lime-50 text-orange-600 hover:bg-orange-600 hover:text-white active:bg-orange-600 active:text-white focus:bg-orange-500 focus:text-white focus:ring-0 p-2"
-            />
-            <label
-              for="vehicle1"
-              class="cursor-pointer"
-              onClick={() => setInterestedInDayHikes(!interestedInDayHikes())}
-            >
-              Interested in day hikes?
-            </label>
-          </div>
-          <div class="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="interestedInBackpacking"
-              name="interestedInBackpacking"
-              checked={interestedInBackpacking()}
-              onClick={() =>
-                setInterestedInBackpacking(!interestedInBackpacking())
-              }
-              class="cursor-pointer border-l border-t border-r border-b border-orange-600 checked:bg-orange-600 checked:text-white bg-lime-50 text-orange-600 hover:bg-orange-600 hover:text-white active:bg-orange-600 active:text-white focus:bg-orange-500 focus:text-white focus:ring-0 p-2"
-            />
-            <label
-              for="vehicle1"
-              class="cursor-pointer"
-              onClick={() =>
-                setInterestedInBackpacking(!interestedInBackpacking())
-              }
-            >
-              Interested in backpacking?
-            </label>
-          </div>
           <label for="cars">Membership type: *</label>
 
           <select
@@ -328,14 +278,14 @@ const SignUpPage = ({}) => {
             value={nextOfKin()}
             onChange={(event) => setNextOfKin(event.target.value)}
             class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Next of Kin *"
+            placeholder="Next Of Kin *"
           />
           <input
             type="tel"
             value={nextOfKinContact()}
             onChange={(event) => setNextOfKinContact(event.target.value)}
             class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Next of Kin contact"
+            placeholder="Next Of Kin Contact Number *"
           />
           <input
             required
@@ -350,63 +300,26 @@ const SignUpPage = ({}) => {
             value={medicalIssues()}
             onChange={(event) => setMedicalIssues(event.target.value)}
             class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Medical issues"
+            placeholder="Medical Issues/Allergies"
           />
           <input
-            required
             type="text"
             value={medicalAid()}
             onChange={(event) => setMedicalAid(event.target.value)}
             class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Medical Aid *"
+            placeholder="Medical Aid"
           />
           <input
             type="number"
             value={medicalAidNumber()}
             onChange={(event) => setMedicalAidNumber(event.target.value)}
             class="w-full h-auto px-3 py-2 bg-lime-50 border-l border-t border-r border-b border-orange-600 outline-none"
-            placeholder="Medical Aid Number *"
+            placeholder="Medical Aid Number"
           />
         </div>
 
         <div class="flex flex-col w-full items-start space-y-3">
           <div class="flex items-center justify-between w-full">
-            <div class="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                id="rememberMe"
-                name="rememberMe"
-                value="rememberMe"
-                class="cursor-pointer border-l border-t border-r border-b border-orange-600 checked:bg-orange-600 checked:text-white bg-lime-50 text-orange-600 hover:bg-orange-600 hover:text-white active:bg-orange-600 active:text-white focus:bg-orange-500 focus:text-white focus:ring-0 p-2"
-              />
-              <label for="vehicle1" class="cursor-pointer">
-                Remember me
-              </label>
-            </div>
-            <button
-              type="submit"
-              class="px-3 py-1 bg-gray-800 text-white hover:bg-gray-700 hover:text-lime-100 cursor-pointer"
-              onClick={() => signUp()}
-            >
-              Join
-            </button>
-          </div>
-
-          {message().content && (
-            <div class="flex flex-col items-center justify-center w-full h-auto">
-              <div
-                class={`${
-                  message().type === "success"
-                    ? "text-lime-700"
-                    : "text-red-500"
-                }`}
-              >
-                {message().content}
-              </div>
-            </div>
-          )}
-
-          <div class="flex flex-col w-full space-y-2 items-center">
             <div class="flex w-full items-center space-x-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -421,9 +334,32 @@ const SignUpPage = ({}) => {
                 class="cursor-pointer"
                 href="/code-of-conduct"
               >
-                Agree to Code of Conduct
+                I Agree to the Code of Conduct
               </Link>
             </div>
+            <button
+              type="submit"
+              class="px-3 py-1 bg-gray-800 text-white hover:bg-gray-700 hover:text-lime-100 cursor-pointer"
+              onClick={() => signUp()}
+            >
+              Join
+            </button>
+          </div>
+
+          {message().content && (
+            <div class="flex flex-col items-center justify-center w-full h-auto">
+              <div
+                class={`${message().type === "success"
+                  ? "text-lime-700"
+                  : "text-red-500"
+                  }`}
+              >
+                {message().content}
+              </div>
+            </div>
+          )}
+
+          <div class="flex flex-col w-full space-y-2 items-center">
             <div>
               Already a member?{" "}
               <Link href="/signIn" class="text-orange-600 underline">

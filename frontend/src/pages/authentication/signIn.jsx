@@ -5,7 +5,7 @@ import { apiUrl } from "../../apiUrl";
 import axios from "axios";
 import useState from "../../hooks/state";
 
-const SignInPage = ({}) => {
+const SignInPage = ({ }) => {
   const navigate = useNavigate();
 
   const [authState, updateAuthState] = useState("authState");
@@ -44,13 +44,22 @@ const SignInPage = ({}) => {
         }, 1500);
       })
       .catch((error) => {
-        setMessage({
-          content: error.response.data.error.message.replace(
-            "identifier",
-            "username"
-          ),
-          type: "error",
-        });
+        console.log(error);
+
+        if (error.response.data.error.message.includes("identifier")) {
+          setMessage({
+            content: error.response.data.error.message.replace(
+              "identifier",
+              "username"
+            ),
+            type: "error",
+          });
+        } else {
+          setMessage({
+            content: "Your account is not valid. Please make sure you have verified. Or contact an administrator in case you have been blocked.",
+            type: "error"
+          });
+        }
       });
   };
 
@@ -82,16 +91,6 @@ const SignInPage = ({}) => {
         <div class="flex flex-col w-full items-start space-y-3">
           <div class="flex items-center justify-between w-full">
             <div class="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                id="vehicle1"
-                name="vehicle1"
-                value="Bike"
-                class="cursor-pointer border-l border-t border-r border-b border-orange-600 checked:bg-orange-600 checked:text-white bg-lime-50 text-orange-600 hover:bg-orange-600 hover:text-white active:bg-orange-600 active:text-white focus:bg-orange-500 focus:text-white focus:ring-0 p-2"
-              />
-              <label for="vehicle1" class="cursor-pointer">
-                Remember me
-              </label>
             </div>
             <button
               type="submit"
@@ -105,11 +104,10 @@ const SignInPage = ({}) => {
           {message().content && (
             <div class="flex flex-col items-center justify-center w-full h-auto">
               <div
-                class={`${
-                  message().type === "success"
+                class={`${message().type === "success"
                     ? "text-lime-700"
                     : "text-red-500"
-                }`}
+                  }`}
               >
                 {message().content}
               </div>
