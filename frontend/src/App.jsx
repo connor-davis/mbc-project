@@ -62,30 +62,30 @@ function App() {
           // Map the pages data that the backend returns in the response.
           return page.attributes.IsDropDown // Check if the page must be a dropdown item.
             ? {
-                // If it is.
-                name: page.attributes.name,
-                slug: page.attributes.slug,
-                isDropdown: page.attributes.IsDropDown,
-                hideFromNavbar: page.attributes.hideFromNavbar,
-                dropdownPages: [
-                  ...page.attributes.page_contents.data.map(
-                    // Map the pages that are related to the page.
-                    (page_content) => {
-                      return {
-                        name: page_content.attributes.title,
-                        slug: page_content.attributes.slug,
-                      };
-                    }
-                  ),
-                ],
-              }
+              // If it is.
+              name: page.attributes.name,
+              slug: page.attributes.slug,
+              isDropdown: page.attributes.IsDropDown,
+              hideFromNavbar: page.attributes.hideFromNavbar,
+              dropdownPages: [
+                ...page.attributes.page_contents.data.map(
+                  // Map the pages that are related to the page.
+                  (page_content) => {
+                    return {
+                      name: page_content.attributes.title,
+                      slug: page_content.attributes.slug,
+                    };
+                  }
+                ),
+              ],
+            }
             : {
-                // If it isn't.
-                name: page.attributes.name,
-                slug: page.attributes.slug,
-                isDropdown: page.attributes.IsDropDown,
-                hideFromNavbar: page.attributes.hideFromNavbar,
-              };
+              // If it isn't.
+              name: page.attributes.name,
+              slug: page.attributes.slug,
+              isDropdown: page.attributes.IsDropDown,
+              hideFromNavbar: page.attributes.hideFromNavbar,
+            };
         }),
       ]);
 
@@ -250,7 +250,7 @@ function App() {
                     onClick={() => setNavbarOpen(false)}
                   >
                     <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
-                      Join
+                      Join The Club
                     </p>
                   </Link>
                 </>
@@ -258,64 +258,68 @@ function App() {
             </div>
           )}
         </div>
-        <div class="hidden lg:flex w-full h-auto justify-center text-white bg-gray-800">
-          {navbarPages.map(
-            (page) =>
-              !page.hideFromNavbar && (
-                <Link
-                  href={page.slug}
-                  class={`${page.isDropdown ? "group relative" : ""}`}
-                >
-                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
-                    {page.name}
-                  </p>
+        <div class="hidden lg:flex w-full h-auto justify-center space-x-48 text-white bg-gray-800">
+          <div class="flex">
+            {navbarPages.map(
+              (page) =>
+                !page.hideFromNavbar && (
+                  <Link
+                    href={page.slug}
+                    class={`${page.isDropdown ? "group relative" : ""}`}
+                  >
+                    <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
+                      {page.name}
+                    </p>
 
-                  {page.isDropdown && (
-                    <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800">
-                      {page.dropdownPages.map((droplet) => (
-                        <Link
-                          href={droplet.slug}
-                          class="p-2 hover:text-lime-100 hover:bg-gray-700 shrink-0"
-                        >
-                          {droplet.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                    {page.isDropdown && (
+                      <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800">
+                        {page.dropdownPages.map((droplet) => (
+                          <Link
+                            href={droplet.slug}
+                            class="p-2 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                          >
+                            {droplet.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </Link>
+                )
+            )}
+          </div>
+          <div class="flex">
+            {authState.authenticationToken ? (
+              <>
+                <Link href="/profile" class={``}>
+                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Profile</p>
                 </Link>
-              )
-          )}
-          {authState.authenticationToken ? (
-            <>
-              <Link href="/profile" class={``}>
-                <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Profile</p>
-              </Link>
 
-              <p
-                class="p-2 hover:text-lime-100 hover:bg-gray-700 cursor-pointer"
-                onClick={() => {
-                  clearAuthState();
-                  clearUserState();
+                <p
+                  class="p-2 hover:text-lime-100 hover:bg-gray-700 cursor-pointer"
+                  onClick={() => {
+                    clearAuthState();
+                    clearUserState();
 
-                  setTimeout(() => {
-                    window.location.href = window.location.href;
-                  });
-                }}
-              >
-                Logout
-              </p>
-            </>
-          ) : (
-            <>
-              <Link href="/signIn" class={``}>
-                <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Login</p>
-              </Link>
+                    setTimeout(() => {
+                      window.location.href = window.location.href;
+                    });
+                  }}
+                >
+                  Logout
+                </p>
+              </>
+            ) : (
+              <>
+                <Link href="/signIn" class={``}>
+                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Login</p>
+                </Link>
 
-              <Link href="/signUp" class={``}>
-                <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Join</p>
-              </Link>
-            </>
-          )}
+                <Link href="/code-of-conduct" class={``}>
+                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Join</p>
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -325,7 +329,7 @@ function App() {
             <Route
               path={page.slug}
               element={
-                <div class="w-full prose max-w-none m-0 prose-p:m-0 prose-h1:m-0 p-5 prose-a:text-orange-600 marker:text-orange-600 prose-headings:text-orange-600 rounded-md animate-fade-in duration-50 ease-in-out px-5 md:px-96 bg-lime-100">
+                <div class="w-full prose max-w-none m-0 prose-p:m-0 prose-h1:m-0 p-5 prose-a:text-orange-600 marker:text-orange-600 prose-headings:text-orange-600 rounded-md animate-fade-in duration-50 ease-in-out px-5 md:px-32 bg-lime-100">
                   <PageTextToHtml content={page.content} />
                 </div>
               }
