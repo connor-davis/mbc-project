@@ -245,7 +245,7 @@ function App() {
                   </Link>
 
                   <Link
-                    href="/signUp"
+                    href="/code-of-conduct"
                     class={``}
                     onClick={() => setNavbarOpen(false)}
                   >
