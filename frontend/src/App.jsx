@@ -122,9 +122,9 @@ function App() {
   return (
     <div class="flex flex-col w-screen h-screen overflow-y-auto overflow-x-hidden bg-lime-100">
       <div class="flex flex-col w-full h-auto bg-white">
-        <div class="flex w-full lg:h-auto justify-center">
-          <img src={LogoImage} />
-          <img src={HeaderImage} class="hidden lg:block" />
+        <div class="flex w-full lg:h-auto justify-center px-96">
+          <img src={LogoImage} class="shrink-0 h-full" />
+          <img src={HeaderImage} class="hidden lg:block lg:w-full" />
         </div>
         <div class="flex lg:hidden w-full h-auto justify-end text-white bg-gray-800">
           <div
@@ -258,7 +258,7 @@ function App() {
             </div>
           )}
         </div>
-        <div class="hidden lg:flex w-full h-auto justify-center space-x-48 text-white bg-gray-800">
+        <div class="hidden lg:flex w-full h-auto justify-between px-96 text-white bg-gray-800">
           <div class="flex">
             {navbarPages.map(
               (page) =>
@@ -267,7 +267,7 @@ function App() {
                     href={page.slug}
                     class={`${page.isDropdown ? "group relative" : ""}`}
                   >
-                    <p class="p-2 hover:text-lime-100 hover:bg-gray-700">
+                    <p class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700">
                       {page.name}
                     </p>
 
@@ -276,7 +276,7 @@ function App() {
                         {page.dropdownPages.map((droplet) => (
                           <Link
                             href={droplet.slug}
-                            class="p-2 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                            class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700 shrink-0"
                           >
                             {droplet.name}
                           </Link>
@@ -287,39 +287,65 @@ function App() {
                 )
             )}
           </div>
+
           <div class="flex">
             {authState.authenticationToken ? (
-              <>
-                <Link href="/profile" class={``}>
-                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Profile</p>
-                </Link>
-
-                <p
-                  class="p-2 hover:text-lime-100 hover:bg-gray-700 cursor-pointer"
-                  onClick={() => {
-                    clearAuthState();
-                    clearUserState();
-
-                    setTimeout(() => {
-                      window.location.href = window.location.href;
-                    });
-                  }}
-                >
-                  Logout
+              <div
+                class="group relative"
+              >
+                <p class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700">
+                  Membership
                 </p>
-              </>
-            ) : (
-              <>
-                <Link href="/signIn" class={``}>
-                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Login</p>
-                </Link>
 
-                <Link href="/code-of-conduct" class={``}>
-                  <p class="p-2 hover:text-lime-100 hover:bg-gray-700">Join</p>
-                </Link>
-              </>
+                <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800">
+                  <Link
+                    href="/profile"
+                    class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                  >
+                    Profile
+                  </Link>
+
+                  <div
+                    class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                    onClick={() => {
+                      clearAuthState();
+                      clearUserState();
+
+                      setTimeout(() => {
+                        window.location.href = window.location.href;
+                      });
+                    }}
+                  >
+                    Logout
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div
+                class="group relative"
+              >
+                <p class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700">
+                  Membership
+                </p>
+
+                <div class="absolute hidden group-hover:flex group-hover:flex-col mt-auto w-64 h-auto p-2 bg-gray-800">
+                  <Link
+                    href="/join-the-club"
+                    class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                  >
+                    Join
+                  </Link>
+                  <Link
+                    href="/signIn"
+                    class="py-2 px-4 hover:text-lime-100 hover:bg-gray-700 shrink-0"
+                  >
+                    Login
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
+
         </div>
       </div>
 
