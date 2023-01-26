@@ -21,6 +21,7 @@ import ckeditor5TableDll from "@ckeditor/ckeditor5-table/build/table.js";
 import ckeditor5WordCountDll from "@ckeditor/ckeditor5-word-count/build/word-count.js";
 import ckeditor5MaximumLengthDll from "@reinmar/ckeditor5-maximum-length/build/maximum-length.js";
 import { StrapiMediaLib } from "./plugins/StrapiMediaLib";
+import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
 
 const CKEDITOR_BASE_CONFIG_FOR_PRESETS = {
   light: {
@@ -195,6 +196,7 @@ const CKEDITOR_BASE_CONFIG_FOR_PRESETS = {
       window.CKEditor5.table.TableColumnResize,
       window.CKEditor5.table.TableCaption,
       window.CKEditor5.wordCount.WordCount,
+      // window.CKEditor5.sourceEditing.SourceEditing,
       StrapiMediaLib
     ],
     toolbar: [

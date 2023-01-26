@@ -135,15 +135,15 @@
     },
     "medicalIssues": {
       "type": "text",
-      "required": true
+      "required": false
     },
     "medicalAid": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "medicalAidNumber": {
       "type": "biginteger",
-      "required": true
+      "required": false
     },
     "image": {
       "type": "media",
@@ -166,14 +166,7 @@
       "default": false,
       "required": true
     },
-    "homePhone": {
-      "type": "string",
-      "required": false
-    },
-    "cellPhone": {
-      "type": "string"
-    },
-    "workPhone": {
+    "preferredContactNumber": {
       "type": "string"
     },
     "addressLineOne": {
@@ -198,6 +191,11 @@
     },
     "processed": {
       "type": "string"
+    },
+    "user_types": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-type.user-type"
     }
   }
 }

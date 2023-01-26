@@ -1,5 +1,5 @@
 {
-  "/leader-news-letters": {
+  "/unsubscribed-emails": {
     "get": {
       "responses": {
         "200": {
@@ -7,7 +7,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LeaderNewsLetterListResponse"
+                "$ref": "#/components/schemas/UnsubscribedEmailListResponse"
               }
             }
           }
@@ -64,7 +64,7 @@
         }
       },
       "tags": [
-        "Leader-news-letter"
+        "Unsubscribed-email"
       ],
       "parameters": [
         {
@@ -169,7 +169,7 @@
           }
         }
       ],
-      "operationId": "get/leader-news-letters"
+      "operationId": "get/unsubscribed-emails"
     },
     "post": {
       "responses": {
@@ -178,7 +178,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LeaderNewsLetterResponse"
+                "$ref": "#/components/schemas/UnsubscribedEmailResponse"
               }
             }
           }
@@ -235,23 +235,23 @@
         }
       },
       "tags": [
-        "Leader-news-letter"
+        "Unsubscribed-email"
       ],
       "parameters": [],
-      "operationId": "post/leader-news-letters",
+      "operationId": "post/unsubscribed-emails",
       "requestBody": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/LeaderNewsLetterRequest"
+              "$ref": "#/components/schemas/UnsubscribedEmailRequest"
             }
           }
         }
       }
     }
   },
-  "/leader-news-letters/{id}": {
+  "/unsubscribed-emails/{id}": {
     "get": {
       "responses": {
         "200": {
@@ -259,7 +259,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LeaderNewsLetterResponse"
+                "$ref": "#/components/schemas/UnsubscribedEmailResponse"
               }
             }
           }
@@ -316,7 +316,7 @@
         }
       },
       "tags": [
-        "Leader-news-letter"
+        "Unsubscribed-email"
       ],
       "parameters": [
         {
@@ -330,7 +330,7 @@
           }
         }
       ],
-      "operationId": "get/leader-news-letters/{id}"
+      "operationId": "get/unsubscribed-emails/{id}"
     },
     "put": {
       "responses": {
@@ -339,7 +339,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LeaderNewsLetterResponse"
+                "$ref": "#/components/schemas/UnsubscribedEmailResponse"
               }
             }
           }
@@ -396,7 +396,7 @@
         }
       },
       "tags": [
-        "Leader-news-letter"
+        "Unsubscribed-email"
       ],
       "parameters": [
         {
@@ -410,13 +410,13 @@
           }
         }
       ],
-      "operationId": "put/leader-news-letters/{id}",
+      "operationId": "put/unsubscribed-emails/{id}",
       "requestBody": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/LeaderNewsLetterRequest"
+              "$ref": "#/components/schemas/UnsubscribedEmailRequest"
             }
           }
         }
@@ -487,7 +487,7 @@
         }
       },
       "tags": [
-        "Leader-news-letter"
+        "Unsubscribed-email"
       ],
       "parameters": [
         {
@@ -501,10 +501,10 @@
           }
         }
       ],
-      "operationId": "delete/leader-news-letters/{id}"
+      "operationId": "delete/unsubscribed-emails/{id}"
     }
   },
-  "/leader-news-letters/{id}/localizations": {
+  "/unsubscribed-emails/{id}/localizations": {
     "post": {
       "responses": {
         "200": {
@@ -512,7 +512,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LeaderNewsLetterLocalizationResponse"
+                "$ref": "#/components/schemas/UnsubscribedEmailLocalizationResponse"
               }
             }
           }
@@ -569,7 +569,7 @@
         }
       },
       "tags": [
-        "Leader-news-letter"
+        "Unsubscribed-email"
       ],
       "parameters": [
         {
@@ -583,13 +583,13 @@
           }
         }
       ],
-      "operationId": "post/leader-news-letters/{id}/localizations",
+      "operationId": "post/unsubscribed-emails/{id}/localizations",
       "requestBody": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/LeaderNewsLetterLocalizationRequest"
+              "$ref": "#/components/schemas/UnsubscribedEmailLocalizationRequest"
             }
           }
         }

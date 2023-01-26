@@ -1,9 +1,15 @@
+const path = require("path");
+
 module.exports = {
   async afterUpdate(event) {
     const { result } = event;
 
     try {
-      if (!result.emailed) {
+      const newsletter = await strapi.db.query("api::news-letter.news-letter").findOne({ where: { id: result.id }, populate: true });
+      const unsubscribedEmails = await strapi.db.query("api::unsubscribed-email.unsubscribed-email").findMany();
+      const dontSendToThese = unsubscribedEmails.map((data) => data.email);
+
+      if (result.publishedAt && !result.emailed) {
         console.log("News letter has not been emailed. Performing bulk email.");
 
         const startTime = Date.now();
@@ -11,17 +17,38 @@ module.exports = {
         const users = await strapi.db
           .query("plugin::users-permissions.user")
           .findMany({
-            blocked: false,
+            where: {
+              blocked: false,
+              email: {
+                $notIn: [...dontSendToThese],
+              },
+              user_types: {
+                userType: [...newsletter.user_types.map((type) => type.userType)],
+              },
+            },
+            populate: true,
           });
 
-        const userEmails = users.map((user) => user.email);
+        users.map(async (user) => {
+          result.Content = result.Content.replace("{firstName}", user.firstName);
+          result.Content = result.Content.replace("{unsubscribe}", "<a href=\"https://mountainbackpackers-club.co.za/unsubscribe?email=" + user.email + "\" style=\"text-decoration:none;color:#ea580c;\">Unsubscribe</a>")
 
-        await strapi.plugins["email"].services.email.send({
-          to: userEmails,
-          from: "noreply@lonewolf-software.co.za",
-          replyTo: "noreply@lonewolf-software.co.za",
-          subject: result.Subject,
-          html: result.Content,
+          await strapi.plugins["email"].services.email.send({
+            to: user.email,
+            from: "info@mountainbackpackers-club.co.za",
+            replyTo: result.replyTo,
+            subject: result.Subject,
+            html: result.Content,
+            attachments: result.hasAttachments ? [
+              ...result.attachments.map((attachment) => {
+                return {
+                  filename: attachment.name,
+                  path: path.join(process.cwd(), "public", attachment.url),
+                  cid: attachment.hash,
+                }
+              })
+            ] : []
+          });
         });
 
         await strapi.entityService.update(

@@ -9,8 +9,9 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "dependencies": {
+  "dependencies": { 
     "@ckeditor/strapi-plugin-ckeditor": "^0.0.5",
+    "@ckeditor/ckeditor5-source-editing": "^35.1.0",
     "@palmabit/strapi-app-version": "^1.1.0",
     "@strapi/plugin-documentation": "^4.5.4",
     "@strapi/plugin-i18n": "4.5.4",
