@@ -14,6 +14,7 @@ import { apiUrl } from "./apiUrl";
 import axios from "axios";
 import { createStore } from "solid-js/store";
 import useState from "./hooks/state";
+import UnsubscribePage from "./pages/profile/unsubscribe";
 
 function App() {
   const [authState, updateAuthState, clearAuthState] = useState("authState");
@@ -366,6 +367,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
           <Route path="/resetPassword" element={<ResetPasswordPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/unsubscribe" element={<UnsubscribePage />} />
         </Routes>
       </div>
 

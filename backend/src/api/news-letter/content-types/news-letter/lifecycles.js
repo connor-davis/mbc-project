@@ -30,15 +30,17 @@ module.exports = {
           });
 
         users.map(async (user) => {
-          result.Content = result.Content.replace("{firstName}", user.firstName);
-          result.Content = result.Content.replace("{unsubscribe}", "<a href=\"https://mountainbackpackers-club.co.za/unsubscribe?email=" + user.email + "\" style=\"text-decoration:none;color:#ea580c;\">Unsubscribe</a>")
+          let content = result.Content;
+
+          content = content.replace("{firstName}", user.firstName);
+          content = content.replace("{unsubscribe}", "<a href=\"https://mountainbackpackers-club.co.za/unsubscribe?email=" + user.email + "\" style=\"text-decoration:none;color:#ea580c;\">Unsubscribe</a>")
 
           await strapi.plugins["email"].services.email.send({
             to: user.email,
             from: "info@mountainbackpackers-club.co.za",
             replyTo: result.replyTo,
             subject: result.Subject,
-            html: result.Content,
+            html: content,
             attachments: result.hasAttachments ? [
               ...result.attachments.map((attachment) => {
                 return {
